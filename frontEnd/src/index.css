@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+
+body
+{
+    background-color: #1d2025;
+}
+
+.myClass {
+    display: grid;
+    grid-template-columns: 3fr 11fr 6fr 9fr 13fr 11fr;
+}
+
