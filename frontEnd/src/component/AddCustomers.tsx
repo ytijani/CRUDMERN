@@ -1,15 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Header } from "./Home";
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 
 const AddCustomers = () => {
+    
     const [firstname, setFirstname] = useState()
     const [lastname, setLastname] = useState()
     const [email, setEmail] = useState()
     const [country, setCountry] = useState()
     const [age, setAge] = useState()
 
+    const navigate = useNavigate()
+    useEffect(() => {
+        if(JSON.parse(localStorage.getItem("logout") || ""))
+        {
+            navigate("/");
+        }
+    },[])
 
     const handleSubmit = (e:any) => 
     {

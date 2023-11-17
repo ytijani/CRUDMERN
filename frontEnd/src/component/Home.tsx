@@ -11,6 +11,14 @@ import { useEffect } from 'react'
 export const Navbar = () => {
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if(JSON.parse(localStorage.getItem("logout") || ""))
+        {
+            navigate("/");
+        }
+    },[])
+
     const handleLogout = () => {
         setTimeout(() => {
             navigate("/");
