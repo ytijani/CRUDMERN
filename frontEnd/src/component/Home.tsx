@@ -7,35 +7,43 @@ import pen from '../assets/pen-solid.svg'
 import read from '../assets/eye-solid.svg'
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import {deleteUserInfo, getUserInfo } from '../reducer/userSlice'
 
 export const Navbar = () => {
 
     const navigate = useNavigate();
+  
 
     useEffect(() => {
-        if(JSON.parse(localStorage.getItem("logout") || ""))
-        {
-            navigate("/");
-        }
-    },[])
+        const logoutData = localStorage.getItem("logout");    
+        if (logoutData) {
+          const parsedLogoutData = JSON.parse(logoutData);
 
+          if (parsedLogoutData) {
+            navigate("/");
+          }
+        }
+      }, []);
+
+    
     const handleLogout = () => {
         setTimeout(() => {
             navigate("/");
             localStorage.setItem('logout', JSON.stringify(true))
-        },1000)
+        }, 1000)
     }
 
-    
+
     return (
         <div className="w-[15em] bg-[#222429] h-[100vh]">
             <h1 className="text-white font-poppins font-semibold text-center py-[20px] border-b-[1px]">CRUD APP</h1>
             <div className='flex flex-col text-white font-poppins gap-[10px] pt-[30px] relative h-[90%] cursor-pointer'>
-                <Link to="home" className='flex gap-[10px] hover:bg-[#056dff] p-[12px] mx-[10px] rounded-[8px]'>
+                <Link to="/home" className='flex gap-[10px] hover:bg-[#056dff] p-[12px] mx-[10px] rounded-[8px]'>
                     <img src={home} alt="" />
                     <h1>Home</h1>
                 </Link>
-                <Link to="addcustomers" className='flex gap-[10px] hover:bg-[#056dff] p-[12px] mx-[10px] rounded-[8px]'>
+                <Link to="/addcustomers" className='flex gap-[10px] hover:bg-[#056dff] p-[12px] mx-[10px] rounded-[8px]'>
                     <img src={profile} alt="" />
                     <h1>Add Customers</h1>
                 </Link>
@@ -64,8 +72,20 @@ export const Header = () => {
     )
 }
 
-const data: any = [];
+
 const Home = () => {
+    const dispatch = useDispatch<any>();
+    const {user} = useSelector((state : any) => state.user);
+    
+    useEffect(() => {
+        dispatch(getUserInfo())
+    },[dispatch])
+
+
+    const deleteitems = (id : any) => {
+        dispatch(deleteUserInfo(id));
+    }
+
     return (
         <div className='w-[100%] h-[100vh] bg-[#1d2025]'>
             <Header />
@@ -78,19 +98,19 @@ const Home = () => {
                     <h1 className='border-solid border-[1px] py-[10px]'>Lastupdated</h1>
                     <h1 className='border-solid border-[1px] py-[10px]'>Action</h1>
                 </div>
-                {data && data.map((item: any, index: any) => {
-                    const { fullname, age, country, lastupdated } = item
+                {user && user.map((item: any , index : number) => {
+                    const { id,firstname, lastname,age, country} = item
                     return (
-                        <div key={index} className='myClass text-white items-center text-center font-poppins  border-solid border-[#eee] border-[1px] py-[12px]'>
+                        <div key={id} className='myClass text-white items-center text-center font-poppins  border-solid border-[#eee] border-[1px] py-[12px]'>
                             <p>{index}</p>
-                            <p>{fullname}</p>
+                            <p>{firstname} {lastname}</p>
                             <p>{age}</p>
                             <p>{country}</p>
-                            <p>{lastupdated}</p>
+                            <p>1213</p>
                             <p className='flex pl-[1em] lg:pl-[2em] xl:pl-[3.7em] 2xl:pl-[7.5em] gap-[20px] '>
                                 <div className=' w-[30px] h-[30px]  bg-[#056dff] flex items-center justify-center rounded-[6px] cursor-pointer'><img className=' ' src={read} alt="" /></div>
                                 <div className='w-[30px] h-[30px]  bg-[#056dff] flex items-center justify-center rounded-[6px] cursor-pointer'><img src={pen} alt="" /></div>
-                                <div className='w-[30px] h-[30px]  bg-[#DC0101] flex items-center justify-center rounded-[6px] cursor-pointer'><img src={trash} alt="" /></div>
+                                <div onClick={() => deleteitems(id)} className='w-[30px] h-[30px]  bg-[#DC0101] flex items-center justify-center rounded-[6px] cursor-pointer'><img src={trash} alt="" /></div>
                             </p>
                         </div>
                     )

@@ -16,7 +16,5 @@ model User{
   lastname String
   age String
   country String
-  username String
   email String @unique
-  password String
-}
+}   

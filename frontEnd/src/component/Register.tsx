@@ -15,16 +15,19 @@ const Register = () => {
     const imageRef = useRef<HTMLInputElement | null>(null)
 
     useEffect(() => {
-        if(!JSON.parse(localStorage.getItem("logout") || ""))
-        {
-            navigate("/home");
+        const logtoutData = localStorage.getItem("logout");
+        if (logtoutData) {
+            if (!JSON.parse(localStorage.getItem("logout") || "")) {
+                navigate("/home");
+            }
+
         }
-    },[])
+    }, [])
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
         const reader = new FileReader();
-        let image  = null;
+        let image = null;
         reader.addEventListener('load', () => {
             image = reader.result;
             const hashpassword = bcrypt.hashSync(password, 10);
@@ -32,7 +35,7 @@ const Register = () => {
                 username,
                 email,
                 image,
-                password : hashpassword,
+                password: hashpassword,
             }))
         })
 

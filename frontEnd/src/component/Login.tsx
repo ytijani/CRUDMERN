@@ -10,25 +10,38 @@ const Login = () => {
 
 
     useEffect(() => {
-        if(!JSON.parse(localStorage.getItem("logout") || ""))
+
+        const logtoutData = localStorage.getItem('logout');
+        if(logtoutData)
         {
-            navigate("/home");
+            if(!JSON.parse(localStorage.getItem("logout") || ""))
+            {
+                navigate("/home");
+            }
         }
     },[])
     
     const handleSumbit = async (e: any) => {
         e.preventDefault();
-        const data_user : any = JSON.parse(localStorage.getItem('user') || "")
+        const data : any = localStorage.getItem('user');
 
-        if (data_user) {
+        if (data) {
+            const data_user : any = JSON.parse(localStorage.getItem('user') || "")
+
             if(data_user.username != username)
+            {
+                console.log("Here : ",data_user.username);
                 return alert("username or password are invalid");
+            }
             const isPasswordValid = await bcrypt.compare(password,data_user.password);
             if(!isPasswordValid)
                 return alert("password not valid");
+            localStorage.setItem('logout', JSON.stringify(false));
+            navigate("/home")
         }
-        localStorage.setItem('logout', JSON.stringify(false));
-        navigate("/home")
+        if(!data){
+            alert("username or password are invalid");
+        }
     }
 
     return (
