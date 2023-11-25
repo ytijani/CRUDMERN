@@ -18,6 +18,7 @@ const getInfo = async (req, res) => {
         })
         return (res.json(user))
     } catch (error) {
+        console.log("getINFO : ", error);
         res.status(500).json(error);
     }
 }
@@ -38,21 +39,39 @@ const addInfo = async (req, res) => {
         })
         return (res.json("user created successfully"))
     } catch (error) {
-        console.log(error)
-        res.status(500).json(error);
+        return res.status(500).json(error);
 
     }
 }
 
 const updateInfo = async (req, res) => {
 
+    
+    try{ 
+        const updateuser  = await prisma.user.update({
+            where : {
+                id : req.body.id
+            },
+            data : {
+                firstname : req.body.firstname,
+                lastname : req.body.lastname,
+                email : req.body.email,
+                country : req.body.country,
+                age : req.body.age
+            }
+        })
+        return (res.send("data update successfullt"))
+    }catch(error)
+    {
+        return res.status(500).json(error);
+    }
 
 }
 
 const deleteInfo = async (req, res) => {
 
     try {
-        const res = await prisma.user.delete({
+        const deleteuser = await prisma.user.delete({
             where : {
                 id : req.query.id
             }
@@ -60,7 +79,8 @@ const deleteInfo = async (req, res) => {
         })
        return (res.send("user deleted successfully"))
     } catch (error) {
-        console.log(error);
+        console.log("DELETE INFO : ", error);
+        res.status(500).json(error);
     }
 }
 

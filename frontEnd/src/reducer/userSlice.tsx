@@ -79,47 +79,75 @@ export const deleteUserInfo = createAsyncThunk('user/deleteuserinfo', async (dat
     }
 })
 
+export const updateUserInfo = createAsyncThunk('user/updateUserInfo', async (data : any, thunkAPI) => 
+{
+    const {rejectWithValue} = thunkAPI;
+    try
+    {
+        const res = await axios.put("http://localhost:3000/user/updateInfo", data,{
+            headers : {
+                'Content-Type' : 'application/json',
+            },
+        })
+        return (res.data)
+    }
+    catch(error  : any)
+    {
+        return (rejectWithValue(error.response.data))
+    }
+})
+
 const userInfo = createSlice({
     name : 'user',
     initialState,
     reducers : {},
     extraReducers : (builder) => {
     builder 
-        .addCase(addUserInfo.pending, (state, action) => {
+        .addCase(addUserInfo.pending, (state) => {
             state.isloading = true
-            console.log(action)
+            
         })
-        .addCase(addUserInfo.fulfilled, (state, action) => {
+        .addCase(addUserInfo.fulfilled, (state) => {
             state.isloading = false
-            console.log(action)
+            
         })
-        .addCase(addUserInfo.rejected, (state, action) => {
+        .addCase(addUserInfo.rejected, (state) => {
             state.isloading = true
-            console.log(action)
+            
         })
-        .addCase(getUserInfo.pending, (state, action) => {
+        .addCase(getUserInfo.pending, (state, ) => {
             state.isloading = true
-            console.log(action)
+            
         })
         .addCase(getUserInfo.fulfilled, (state, action) => {
             state.isloading = false
             state.user  = action.payload
         })
-        .addCase(getUserInfo.rejected, (state, action) => {
+        .addCase(getUserInfo.rejected, (state, ) => {
             state.isloading = true
-            console.log(action)
+            
         })
-        .addCase(deleteUserInfo.pending, (state, action) => {
+        .addCase(deleteUserInfo.pending, (state, ) => {
             state.isloading = true
-            console.log(action)
+            
         })
-        .addCase(deleteUserInfo.fulfilled, (state, action) => {
+        .addCase(deleteUserInfo.fulfilled, (state) => {
             state.isloading = false
-            state.user  = action.payload
         })
-        .addCase(deleteUserInfo.rejected, (state, action) => {
+        .addCase(deleteUserInfo.rejected, (state) => {
             state.isloading = true
-            console.log(action)
+            
+        })
+        .addCase(updateUserInfo.pending, (state, ) => {
+            state.isloading = true
+            
+        })
+        .addCase(updateUserInfo.fulfilled, (state) => {
+            state.isloading = false
+        })
+        .addCase(updateUserInfo.rejected, (state) => {
+            state.isloading = true
+            
         })
     }
 })

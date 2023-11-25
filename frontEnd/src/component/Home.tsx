@@ -5,28 +5,32 @@ import logo from '../assets/logo.png'
 import trash from '../assets/trash-solid.svg'
 import pen from '../assets/pen-solid.svg'
 import read from '../assets/eye-solid.svg'
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 import { Link, useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {deleteUserInfo, getUserInfo } from '../reducer/userSlice'
+import { deleteUserInfo, getUserInfo } from '../reducer/userSlice'
+import UpdateUser from './UpdateUser'
+
 
 export const Navbar = () => {
 
     const navigate = useNavigate();
-  
+
 
     useEffect(() => {
-        const logoutData = localStorage.getItem("logout");    
+        const logoutData = localStorage.getItem("logout");
         if (logoutData) {
-          const parsedLogoutData = JSON.parse(logoutData);
+            const parsedLogoutData = JSON.parse(logoutData);
 
-          if (parsedLogoutData) {
-            navigate("/");
-          }
+            if (parsedLogoutData) {
+                navigate("/");
+            }
         }
-      }, []);
+    }, []);
 
-    
+
     const handleLogout = () => {
         setTimeout(() => {
             navigate("/");
@@ -75,15 +79,18 @@ export const Header = () => {
 
 const Home = () => {
     const dispatch = useDispatch<any>();
-    const {user} = useSelector((state : any) => state.user);
-    
+    const { user } = useSelector((state: any) => state.user);
+
     useEffect(() => {
         dispatch(getUserInfo())
-    },[dispatch])
+    }, [dispatch])
 
 
-    const deleteitems = (id : any) => {
-        dispatch(deleteUserInfo(id));
+    const deleteitems = (id: any) => {
+        dispatch(deleteUserInfo(id))
+            .then(() => {
+                dispatch(getUserInfo())
+            })
     }
 
     return (
@@ -98,8 +105,8 @@ const Home = () => {
                     <h1 className='border-solid border-[1px] py-[10px]'>Lastupdated</h1>
                     <h1 className='border-solid border-[1px] py-[10px]'>Action</h1>
                 </div>
-                {user && user.map((item: any , index : number) => {
-                    const { id,firstname, lastname,age, country} = item
+                {user && user.map((item: any, index: number) => {
+                    const { id, firstname, lastname, age, country } = item
                     return (
                         <div key={id} className='myClass text-white items-center text-center font-poppins  border-solid border-[#eee] border-[1px] py-[12px]'>
                             <p>{index}</p>
@@ -109,7 +116,12 @@ const Home = () => {
                             <p>1213</p>
                             <p className='flex pl-[1em] lg:pl-[2em] xl:pl-[3.7em] 2xl:pl-[7.5em] gap-[20px] '>
                                 <div className=' w-[30px] h-[30px]  bg-[#056dff] flex items-center justify-center rounded-[6px] cursor-pointer'><img className=' ' src={read} alt="" /></div>
-                                <div className='w-[30px] h-[30px]  bg-[#056dff] flex items-center justify-center rounded-[6px] cursor-pointer'><img src={pen} alt="" /></div>
+                                <Popup trigger={
+                                    <div  className={`w-[30px] h-[30px]  bg-[#056dff] flex items-center justify-center rounded-[6px] cursor-pointer`}><img src={pen} alt="" /></div>
+                                } modal>
+                                    {// @ts-ignore
+                                        (close) => <UpdateUser close={close}  id={id}/>}
+                                </Popup>
                                 <div onClick={() => deleteitems(id)} className='w-[30px] h-[30px]  bg-[#DC0101] flex items-center justify-center rounded-[6px] cursor-pointer'><img src={trash} alt="" /></div>
                             </p>
                         </div>
@@ -120,5 +132,6 @@ const Home = () => {
         </div>
     )
 }
+
 
 export default Home;

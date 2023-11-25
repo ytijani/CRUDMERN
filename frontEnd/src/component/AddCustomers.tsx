@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Header } from "./Home";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUserInfo } from "../reducer/userSlice";
 
