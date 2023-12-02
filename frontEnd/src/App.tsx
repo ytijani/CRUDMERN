@@ -1,22 +1,21 @@
-import { BrowserRouter, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
-import Home, { Navbar } from './component/Home'
+import { BrowserRouter, Route, Routes} from 'react-router-dom'
+import Home from './component/Home'
 import AddCustomers from './component/AddCustomers'
 import Login from './component/Login'
 import Register from './component/Register'
+import { ToastContainer } from 'react-toastify';
 
 function App() {
 
   return (
     <BrowserRouter>
-      <div className='flex gap-[20px]'>
-        <Navbar />
+        <ToastContainer />
         <Routes>
           <Route path='home' element={<Home />} />
           <Route path='addcustomers' element={<AddCustomers />} />
           <Route path='/' element={<Login />} />
           <Route path='/register' element={<Register />} />
         </Routes>
-      </div>
     </BrowserRouter>
   );
 }

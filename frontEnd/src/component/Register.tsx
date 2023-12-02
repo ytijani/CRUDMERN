@@ -28,6 +28,7 @@ const Register = () => {
         e.preventDefault();
         const reader = new FileReader();
         let image = null;
+        console.log("Heew : ");
         reader.addEventListener('load', () => {
             image = reader.result;
             const hashpassword = bcrypt.hashSync(password, 10);
@@ -66,7 +67,7 @@ const Register = () => {
                 <input onChange={handleFileChange} accept="images/*" type="file" className="hidden" ref={imageRef} />
                 <input type="text" placeholder="Enter Your Username" className="w-[20em] py-[8px] px-[8px] rounded-[8px] outline-none border-solid border-[#eee] border-[1px]" onChange={(e: any) => setUsername(e.target.value)} />
                 <input type="text" placeholder="Enter Your email" className="w-[20em] py-[8px] px-[8px] rounded-[8px] outline-none border-[#eee] border-[1px]" onChange={(e: any) => setEmail(e.target.value)} />
-                <input type="text" placeholder="Enter Your Password" className="w-[20em] py-[8px] px-[8px] rounded-[8px] outline-none border-[#eee] border-[1px]" onChange={(e: any) => setPassword(e.target.value)} />
+                <input type="password" placeholder="Enter Your Password" className="w-[20em] py-[8px] px-[8px] rounded-[8px] outline-none border-[#eee] border-[1px]" onChange={(e: any) => setPassword(e.target.value)} />
                 <button type="submit" className="outline-none bg-[#056dff] w-[20em] text-white  py-[8px] rounded-[8px]">Submit</button>
                 <a>Already have account? <Link to="/" className="text-[#056dff] cursor-pointer">Login</Link></a>
             </form>
