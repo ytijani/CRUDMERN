@@ -63,7 +63,7 @@ const Register = () => {
         <section className="h-[100vh] w-[100vw] flex justify-center items-center bg-[#eee]">
             <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center bg-[#fff] gap-[26px]  border-solid border-[1px] border-[#eee] w-[30em] h-[29em] font-poppins rounded-[8px]">
                 <h1 className="font-semibold">Register</h1>
-                <img src={image ? image : camera} onClick={uploadimage} alt="" className="w-[80px] h-[80px] cursor-pointer" />
+                <img src={image ? image : camera} onClick={uploadimage} alt="" className="w-[80px] h-[80px] cursor-pointer rounded-[50%]" />
                 <input onChange={handleFileChange} accept="images/*" type="file" className="hidden" ref={imageRef} />
                 <input type="text" placeholder="Enter Your Username" className="w-[20em] py-[8px] px-[8px] rounded-[8px] outline-none border-solid border-[#eee] border-[1px]" onChange={(e: any) => setUsername(e.target.value)} />
                 <input type="text" placeholder="Enter Your email" className="w-[20em] py-[8px] px-[8px] rounded-[8px] outline-none border-[#eee] border-[1px]" onChange={(e: any) => setEmail(e.target.value)} />

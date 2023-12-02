@@ -8,7 +8,7 @@ import read from "../assets/eye-solid.svg";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUserInfo, getUserInfo } from "../reducer/userSlice";
 import UpdateUser from "./UpdateUser";
@@ -67,6 +67,17 @@ export const Navbar = () => {
 };
 
 export const Header = () => {
+
+  const [username, setUsername] = useState<string | null>(null)
+  const [image, setImage]  = useState<string | undefined>();
+  useEffect(() => {
+   const dataUser = JSON.parse(localStorage.getItem("user") || "");
+   if(dataUser != "")
+   {
+    setUsername(dataUser.username);
+    setImage(dataUser.image);
+   }
+  }, []);
   return (
     <div className="h-[65px] w-[100%] flex justify-between items-center">
       <div className="text-white">
@@ -80,8 +91,8 @@ export const Header = () => {
         </button>
       </div>
       <div className="text-white flex items-center gap-[10px] mr-[20px]">
-        <img className="w-[30px] h-[30px]" src={logo} alt="" />
-        <h1>ytijani</h1>
+        <img className="w-[30px] h-[30px] rounded-[50%]" src={image} alt="logo" />
+        <h1>{username}</h1>
       </div>
     </div>
   );
